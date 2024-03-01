@@ -29,7 +29,7 @@ export const FeelingModal: React.FC<ComponentProps> = ({
                 <FeelingButton
                   key={idx}
                   data={item}
-                  onClick={onSetFeelings(item)}
+                  onClick={() => onSetFeelings(item)}
                 />
               );
             })}
