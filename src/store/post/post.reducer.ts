@@ -52,6 +52,16 @@ export const postSlice = createSlice({
         });
       }
     },
+    doLike(
+      state: SliceState,
+      action: PayloadAction<{ id: string; likeStatus: boolean }>
+    ) {
+      const { id, likeStatus } = action.payload;
+      const post = state.posts.find((post) => post.id === id);
+      if (post) {
+        post.isLiked = likeStatus;
+      }
+    },
     editComment(
       state,
       action: PayloadAction<{ id: string; commentId: string; comment: string }>
@@ -88,6 +98,7 @@ export const postSlice = createSlice({
 export const {
   addPost,
   addComment,
+  doLike,
   removePost,
   editPost,
   editComment,

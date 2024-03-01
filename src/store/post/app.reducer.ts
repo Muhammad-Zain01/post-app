@@ -53,6 +53,12 @@ export const appSlice = createSlice({
       state.commentId = action.payload.commentId;
       state.comment = action.payload.comment;
     },
+    initialSaveComment(state: SliceState) {
+      state.isCommentEditing = false;
+      state.commentId = null;
+      state.comment = "";
+    },
+
     initiateEdit(
       state: SliceState,
       action: PayloadAction<{
@@ -75,6 +81,7 @@ export const {
   setComment,
   setPost,
   setFeeling,
+  initialSaveComment,
   initiateEdit,
   initiateSave,
   initiateEditComment,

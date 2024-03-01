@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import UIDropdown from "./ui/dropdown.ui";
 import { Comment } from "./comment.component";
 import { RootState } from "@reduxjs/toolkit/query";
-import { setComment } from "../store/post/app.reducer";
+import { initialSaveComment, setComment } from "../store/post/app.reducer";
 
 type ComponentProps = {
   data: Comments;
@@ -42,6 +42,7 @@ const CommentBox: React.FC<ComponentProps> = ({ data, id }) => {
         dispatch(
           editComment({ commentId: commentId, id: id, comment: comment })
         );
+        dispatch(initialSaveComment());
       } else {
         dispatch(addComment({ id: id, comment: comment }));
       }

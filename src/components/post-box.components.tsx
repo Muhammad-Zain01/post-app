@@ -10,10 +10,11 @@ import UIAvatar from "./ui/avatar.ui";
 import { UIText, UITitle } from "./ui/title.ui";
 import UIButton from "./ui/button.ui";
 import CommentBox from "./comment-box.component";
-import { PostPayload, removePost } from "../store/post/post.reducer";
+import { PostPayload, doLike, removePost } from "../store/post/post.reducer";
 import UIDropdown from "./ui/dropdown.ui";
 import { useDispatch } from "react-redux";
 import { initiateEdit, setOpen } from "../store/post/app.reducer";
+import { timeAgo } from "../lib/utils";
 
 type ComponentProps = {
   data: PostPayload;
@@ -41,6 +42,7 @@ const PostBox: React.FC<ComponentProps> = ({ data }) => {
       label: <span onClick={() => selectDropItem("del")}>Delete</span>,
     },
   ];
+  console.log();
   return (
     <div className="bg-white mt-4 p-4 rounded shadow">
       <div className="flex justify-between">
@@ -52,7 +54,7 @@ const PostBox: React.FC<ComponentProps> = ({ data }) => {
               {feeling?.emoji && `is ${feeling?.emoji} feeling ${feeling.text}`}
             </UIText>
             <UIText className="m-0 text-xs text-gray-500 font-semibold">
-              a few seconds ago
+              {data?.time && timeAgo(data.time)}
             </UIText>
           </div>
         </div>
@@ -64,7 +66,17 @@ const PostBox: React.FC<ComponentProps> = ({ data }) => {
       </div>
       <div className="my-3 text-sm">{data?.post}</div>
       <div className="flex justify-between text-xs text-gray-500">
-        <div>0 Likes</div>
+        <div>
+          {" "}
+          {data?.isLiked ? (
+            <>
+              <LikeOutlined className="text-white bg-blue-600 rounded-full p-1 mr-1" />
+              1
+            </>
+          ) : (
+            ""
+          )}
+        </div>
         <div>
           {data?.comments?.length} comments{"  "}0 share
         </div>
@@ -74,6 +86,9 @@ const PostBox: React.FC<ComponentProps> = ({ data }) => {
         <UIButton
           type="text"
           className="w-4/12 flex justify-center items-center font-semibold"
+          onClick={() =>
+            dispatch(doLike({ id: data?.id, likeStatus: !data?.isLiked }))
+          }
         >
           <LikeOutlined />
           {data?.isLiked ? "Liked" : "Like"}
