@@ -7,7 +7,7 @@ import EmojiPicker from "emoji-picker-react";
 import { useDispatch, useSelector } from "react-redux";
 import { Comment } from "./comment.component";
 import { RootState } from "@reduxjs/toolkit/query";
-import { initialSaveComment, setComment } from "../store/post/app.reducer";
+import { initialSaveComment } from "../store/post/app.reducer";
 
 type ComponentProps = {
   data: Comments[];
