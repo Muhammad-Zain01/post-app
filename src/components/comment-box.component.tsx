@@ -1,28 +1,16 @@
-import {
-  CaretDownOutlined,
-  SmileOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import { SmileOutlined, UserOutlined } from "@ant-design/icons";
 import UIAvatar from "./ui/avatar.ui";
 import UIInput from "./ui/input.ui";
-import { UIText } from "./ui/title.ui";
-import {
-  Comments,
-  addComment,
-  editComment,
-  postSlice,
-  removeComment,
-} from "../store/post/post.reducer";
+import { Comments, addComment, editComment } from "../store/post/post.reducer";
 import { ChangeEvent, KeyboardEventHandler, useState } from "react";
 import EmojiPicker from "emoji-picker-react";
 import { useDispatch, useSelector } from "react-redux";
-import UIDropdown from "./ui/dropdown.ui";
 import { Comment } from "./comment.component";
 import { RootState } from "@reduxjs/toolkit/query";
 import { initialSaveComment, setComment } from "../store/post/app.reducer";
 
 type ComponentProps = {
-  data: Comments;
+  data: Comments[];
   id: string;
 };
 const CommentBox: React.FC<ComponentProps> = ({ data, id }) => {

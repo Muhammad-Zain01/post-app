@@ -29,10 +29,10 @@ export const postSlice = createSlice({
   name: "posts",
   initialState: INITIAL_STATE,
   reducers: {
-    addPost(state, action: PayloadAction<PostPayload>) {
+    addPost(state: SliceState, action: PayloadAction<PostPayload>) {
       state.posts = [...state.posts, action.payload];
     },
-    editPost(state, action: PayloadAction<PostPayload>) {
+    editPost(state: SliceState, action: PayloadAction<PostPayload>) {
       const index = state.posts.findIndex(
         (post) => post.id === action.payload.id
       );
@@ -40,7 +40,10 @@ export const postSlice = createSlice({
         state.posts[index] = { ...state.posts[index], ...action.payload };
       }
     },
-    addComment(state, action: PayloadAction<{ id: string; comment: string }>) {
+    addComment(
+      state: SliceState,
+      action: PayloadAction<{ id: string; comment: string }>
+    ) {
       const { id, comment } = action.payload;
       const post = state.posts.find((post) => post.id === id);
       if (post) {
@@ -63,7 +66,7 @@ export const postSlice = createSlice({
       }
     },
     editComment(
-      state,
+      state: SliceState,
       action: PayloadAction<{ id: string; commentId: string; comment: string }>
     ) {
       const { id, comment, commentId } = action.payload;
@@ -78,7 +81,7 @@ export const postSlice = createSlice({
       }
     },
     removeComment(
-      state,
+      state: SliceState,
       action: PayloadAction<{ postid: string; commentid: string }>
     ) {
       const { postid, commentid } = action.payload;
@@ -89,7 +92,7 @@ export const postSlice = createSlice({
         );
       }
     },
-    removePost(state, action: PayloadAction<string>) {
+    removePost(state: SliceState, action: PayloadAction<string>) {
       state.posts = state.posts.filter((post) => post.id != action.payload);
     },
   },

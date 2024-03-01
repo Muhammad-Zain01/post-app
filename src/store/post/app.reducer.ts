@@ -4,7 +4,7 @@ import { FeelingObject } from "../../components/post-modal.component";
 type SliceState = {
   isOpen: boolean;
   post: string;
-  feeling: FeelingObject | {};
+  feeling: FeelingObject;
   id: null | string;
   isEditing: boolean;
   comment: string;

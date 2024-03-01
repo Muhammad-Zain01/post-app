@@ -1,19 +1,18 @@
 import {
   CaretDownOutlined,
   CommentOutlined,
-  DownOutlined,
   LikeOutlined,
   ShareAltOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import UIAvatar from "./ui/avatar.ui";
-import { UIText, UITitle } from "./ui/title.ui";
+import { UIText } from "./ui/title.ui";
 import UIButton from "./ui/button.ui";
 import CommentBox from "./comment-box.component";
 import { PostPayload, doLike, removePost } from "../store/post/post.reducer";
 import UIDropdown from "./ui/dropdown.ui";
 import { useDispatch } from "react-redux";
-import { initiateEdit, setOpen } from "../store/post/app.reducer";
+import { initiateEdit } from "../store/post/app.reducer";
 import { timeAgo } from "../lib/utils";
 
 type ComponentProps = {
@@ -23,7 +22,7 @@ type ComponentProps = {
 const PostBox: React.FC<ComponentProps> = ({ data }) => {
   const dispatch = useDispatch();
   const feeling = data?.feeling;
-  const selectDropItem = (value) => {
+  const selectDropItem = (value: string) => {
     if (value == "del") {
       dispatch(removePost(data?.id));
     } else if (value == "edit") {
@@ -42,7 +41,6 @@ const PostBox: React.FC<ComponentProps> = ({ data }) => {
       label: <span onClick={() => selectDropItem("del")}>Delete</span>,
     },
   ];
-  console.log();
   return (
     <div className="bg-white mt-4 p-4 rounded shadow">
       <div className="flex justify-between">

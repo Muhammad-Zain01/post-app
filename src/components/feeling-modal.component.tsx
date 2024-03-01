@@ -1,6 +1,6 @@
 import { Feelings } from "../data/emojis-list";
+import { FeelingButton } from "./feeling-button";
 import { FeelingObject } from "./post-modal.component";
-import UIButton from "./ui/button.ui";
 import UIModal from "./ui/modal.ui";
 
 type ComponentProps = {
@@ -26,15 +26,11 @@ export const FeelingModal: React.FC<ComponentProps> = ({
           <div className="flex flex-wrap">
             {Feelings.map((item, idx) => {
               return (
-                <UIButton
-                  onClick={() => onSetFeelings(item)}
+                <FeelingButton
                   key={idx}
-                  type="text"
-                  className="text-[16px] h-[40px] items-center w-6/12 flex justify-start"
-                >
-                  <span>{item.emoji}</span>
-                  <span className="ml-2">{item?.text}</span>
-                </UIButton>
+                  data={item}
+                  onClick={onSetFeelings(item)}
+                />
               );
             })}
           </div>
