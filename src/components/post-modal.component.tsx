@@ -7,26 +7,64 @@ import UIButton from "./ui/button.ui";
 import UITooltip from "./ui/tooltip.ui";
 import { ChangeEvent, useState } from "react";
 import { FeelingModal } from "./feeling-modal.component";
+import { useDispatch, useSelector } from "react-redux";
+import { PostPayload, addPost, editPost } from "../store/post/post.reducer";
+import { UUID } from "../lib/utils";
+import { RootState } from "../store/store";
+import { setFeeling, setOpen, setPost } from "../store/post/app.reducer";
 
-type ComponentProps = {
-  isOpen: boolean;
-  setIsOpen: (value: boolean) => void;
-};
 export type FeelingObject = {
   emoji: string;
   text: string;
 };
-const PostModal: React.FC<ComponentProps> = ({
-  isOpen,
-  setIsOpen,
-}): JSX.Element => {
-  const [post, setPost] = useState<string>("");
-  const [feeling, setFeeling] = useState<FeelingObject>({} as FeelingObject);
+
+const PostModal: React.FC = (): JSX.Element => {
+  const app = useSelector((state: RootState) => state?.app);
+  const isEdit = app?.isEditing;
+  const id = app?.id;
+  const post = app?.post;
+  const isOpen = app?.isOpen;
+  const feeling = app?.feeling;
+  const dispatch = useDispatch();
+
+  const onCancel = () => {
+    changePost("");
+    changeFeeeling({} as FeelingObject);
+    dispatch(setOpen(false));
+  };
+  const changePost = (e: string) => {
+    dispatch(setPost(e));
+  };
+  const changeFeeeling = (e: FeelingObject) => {
+    dispatch(setFeeling(e));
+  };
   const [showFeelingModal, setShowFeelingModal] = useState<boolean>(false);
-  const onPost = () => {};
+
   const onSetFeelings = (value: FeelingObject) => {
     setShowFeelingModal(false);
-    setFeeling(value);
+    changeFeeeling(value);
+  };
+  const onPost = () => {
+    if (isEdit) {
+      const payload: PostPayload = {
+        id: id,
+        post,
+        feeling,
+      };
+      dispatch(editPost(payload));
+    } else {
+      const payload: PostPayload = {
+        id: UUID(),
+        post,
+        author: "Muhammad Zain",
+        feeling,
+        time: new Date().toString(),
+        comments: [],
+      };
+      dispatch(addPost(payload));
+    }
+
+    onCancel();
   };
   return (
     <>
@@ -37,7 +75,7 @@ const PostModal: React.FC<ComponentProps> = ({
       />
       <UIModal
         centered
-        onCancel={() => setIsOpen(false)}
+        onCancel={onCancel}
         footer={
           <div>
             <UIButton
@@ -46,7 +84,7 @@ const PostModal: React.FC<ComponentProps> = ({
               disabled={post == "" ? true : false}
               onClick={onPost}
             >
-              Post
+              {isEdit ? "Save" : "Post"}
             </UIButton>
           </div>
         }
@@ -72,8 +110,9 @@ const PostModal: React.FC<ComponentProps> = ({
         <div>
           <UITextArea
             onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-              setPost(e.target.value)
+              changePost(e.target.value)
             }
+            value={post}
             placeholder="What's on your mind?"
             className="border-none w-full text-lg p-0 mt-2 focus:border-none focus-within:shadow-none"
             autoSize={{ minRows: 3, maxRows: 5 }}
