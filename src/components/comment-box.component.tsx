@@ -2,7 +2,7 @@ import { SmileOutlined, UserOutlined } from "@ant-design/icons";
 import UIAvatar from "./ui/avatar.ui";
 import UIInput from "./ui/input.ui";
 import { Comments, addComment, editComment } from "../store/post/post.reducer";
-import { ChangeEvent, KeyboardEventHandler, useState } from "react";
+import { ChangeEvent, KeyboardEventHandler, useEffect, useState } from "react";
 import EmojiPicker from "emoji-picker-react";
 import { useDispatch, useSelector } from "react-redux";
 import { Comment } from "./comment.component";
@@ -15,13 +15,13 @@ type ComponentProps = {
 };
 const CommentBox: React.FC<ComponentProps> = ({ data, id }) => {
   const app = useSelector((state: RootState) => state?.app);
-  const comment = app?.comment;
+  const [comment, setComet] = useState<string>("");
   const isCommentEditing = app?.isCommentEditing;
   const commentId = app?.commentId;
+  useEffect(() => {
+    setComet(app?.comment);
+  }, [isCommentEditing]);
 
-  const changeComment = (value: string) => {
-    dispatch(setComment(value));
-  };
   const [showEmojiModal, setShowEmojiModal] = useState<boolean>(false);
   const dispatch = useDispatch();
   const submitComment = () => {
@@ -35,7 +35,7 @@ const CommentBox: React.FC<ComponentProps> = ({ data, id }) => {
         dispatch(addComment({ id: id, comment: comment }));
       }
     }
-    changeComment("");
+    setComet("");
   };
   const onKeyDown = (e: KeyboardEventHandler<HTMLInputElement>) => {
     if (e?.which == 13) {
@@ -43,7 +43,7 @@ const CommentBox: React.FC<ComponentProps> = ({ data, id }) => {
     }
   };
   const onEmojiClick = (e) => {
-    changeComment(comment + `${e?.emoji}`);
+    setComet(comment + `${e?.emoji}`);
   };
 
   return (
@@ -57,7 +57,7 @@ const CommentBox: React.FC<ComponentProps> = ({ data, id }) => {
           className="w-full ml-2 px-4 border-none bg-gray-100 rounded-full"
           value={comment}
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            changeComment(e.target.value);
+            setComet(e.target.value);
           }}
           onKeyDown={onKeyDown}
           suffix={
