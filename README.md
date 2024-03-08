@@ -5,8 +5,8 @@
 
 The Post Project Application allows users to create, edit, and delete posts, as well as manage comments, fostering interactive discussions and personal expression online.
 
-![Preview1](https://raw.githubusercontent.com/Muhammad-Zain01/post-app/main/preview/preview1.png)
-![Preview1](https://raw.githubusercontent.com/Muhammad-Zain01/post-app/main/preview/preview2.png)
+![Preview1](https://raw.githubusercontent.com/Muhammad-Zain01/post-app/main/Preview1.png)
+![Preview1](https://raw.githubusercontent.com/Muhammad-Zain01/post-app/main/Preview2.png)
 
 ### Setup Instructions
 
